@@ -15,6 +15,9 @@ RUN apt update \
     pdo_pgsql \
     pgsql
 
+# apacheのredirect処理を有効化するため
+RUN  a2enmod rewrite
+
 WORKDIR /var/www/backend
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
