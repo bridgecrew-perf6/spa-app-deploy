@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement } from "react";
 import {
   Box,
   Button,
@@ -8,10 +8,8 @@ import {
   FormLabel,
   Heading,
   Input,
-  Select,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { User } from "@/models";
 import { UserForm } from "@/models/forms";
 import { ErrorMessage } from "@/components/ErrorMessage";
@@ -35,8 +33,6 @@ const UserFormPage = (props: Props): ReactElement => {
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
     formState: { errors, isDirty },
     control,
   } = useForm<FormValues>({
@@ -97,6 +93,12 @@ const UserFormPage = (props: Props): ReactElement => {
                 isInvalid={!!errors.userEmail}
                 {...register("userEmail", {
                   required: true,
+                  validate: (value) => {
+                    const pattern =
+                      /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
+                    if (!pattern.test(value))
+                      return "メールアドレスが正しい形式ではありません(例: xxx@xxx.xxx)";
+                  },
                   maxLength: {
                     value: 30,
                     message: "30文字以内で入力してください",

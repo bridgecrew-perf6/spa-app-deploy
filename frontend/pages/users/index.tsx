@@ -13,14 +13,14 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { User } from "@/models";
-import { apiFetch } from "@/lib";
+import { getApi } from "@/lib";
 
 function Page(): ReactElement {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchAds = async () => {
-      const users: User[] = await apiFetch("/api/users");
+      const users: User[] = await getApi("/api/users");
       setUsers(users);
     };
     fetchAds();
@@ -64,7 +64,7 @@ function Page(): ReactElement {
           justifyContent="center"
           alignItems="center"
         >
-          <Link href="/users/new">
+          <Link href="/users/new" passHref>
             <Button variant="outline" p="24px">
               ユーザーの新規追加
             </Button>
