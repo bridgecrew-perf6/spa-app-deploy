@@ -1,5 +1,4 @@
-import React, { ReactElement } from "react";
-import { GetServerSideProps } from "next";
+import React, { ReactElement, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -16,23 +15,16 @@ import Link from "next/link";
 import { User } from "@/models";
 import { apiFetch } from "@/lib";
 
-interface IProps {
-  users: User[];
-}
+function Page(): ReactElement {
+  const [users, setUsers] = useState<User[]>([]);
 
-export const getServerSideProps: GetServerSideProps<IProps> = async () => {
-  try {
-    const users: User[] = await apiFetch("/api/users");
-    return {
-      props: { users },
+  useEffect(() => {
+    const fetchAds = async () => {
+      const users: User[] = await apiFetch("/api/users");
+      setUsers(users);
     };
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
-};
-
-function Page({ users }: IProps): ReactElement {
+    fetchAds();
+  }, []);
   return (
     <>
       <Box w="100%" p="0 100px">
@@ -72,14 +64,11 @@ function Page({ users }: IProps): ReactElement {
           justifyContent="center"
           alignItems="center"
         >
-          <Button variant="outline" p="24px">
-            ユーザーの新規追加
-          </Button>
-          {/* <Link href="/ads/new">
+          <Link href="/users/new">
             <Button variant="outline" p="24px">
               ユーザーの新規追加
             </Button>
-          </Link> */}
+          </Link>
         </Flex>
       </Box>
     </>
