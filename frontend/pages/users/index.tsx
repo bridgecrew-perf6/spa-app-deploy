@@ -19,12 +19,18 @@ function Page(): ReactElement {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    const fetchAds = async () => {
-      const users: User[] = await getApi("/api/users");
-      setUsers(users);
+    const fetchUsers = async () => {
+      try {
+        const users: User[] = await getApi("/api/users");
+        setUsers(users);
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
     };
-    fetchAds();
+    fetchUsers();
   }, []);
+
   return (
     <>
       <Box w="100%" p="0 100px">
@@ -37,7 +43,7 @@ function Page(): ReactElement {
               <Tr>
                 <Th>ユーザー名</Th>
                 <Th>メールアドレス</Th>
-                <Th>編集</Th>
+                <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -46,11 +52,14 @@ function Page(): ReactElement {
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
                   <Td>
-                    {/* <Link href={`/ads/${encodeURIComponent(ad.id)}`}>
+                    <Link
+                      href={`/users/${encodeURIComponent(user.id)}`}
+                      passHref
+                    >
                       <Button variant="outline" size="sm">
                         編集
                       </Button>
-                    </Link> */}
+                    </Link>
                   </Td>
                 </Tr>
               ))}

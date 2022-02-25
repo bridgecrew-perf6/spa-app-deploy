@@ -8,7 +8,6 @@ const Page = (): ReactElement => {
   const router = useRouter();
 
   const handleSubmit = async (form: UserForm) => {
-    console.log(form);
     try {
       await postApi("/api/users", form);
       alert("広告を保存しました");
