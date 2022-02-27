@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --ext .ts,.tsx --fix --dir frontend",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.8.5",
