@@ -12,12 +12,14 @@ const Page = (): ReactElement => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const fetchUser = async () => {
+      // undefindエラー回避のため
+      if (!id) return;
       try {
         const user: User = await getApi(`/api/users/${id as string}`);
         setUser(user);
       } catch (e) {
         console.error(e);
-        throw e;
+        alert("ユーザーがおりません");
       }
     };
     fetchUser();
